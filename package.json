@@ -22,9 +22,13 @@
     "react-dom": "^0.14.7"
   },
   "devDependencies": {
+    "css-loader": "^0.23.1",
     "gulp": "^3.9.1",
     "html-webpack-plugin": "^2.9.0",
     "jsx-loader": "^0.13.2",
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
     "webpack": "^1.12.14",
     "webpack-stream": "^3.1.0"
   }
