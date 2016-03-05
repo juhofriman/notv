@@ -1,0 +1,31 @@
+{
+  "name": "notv",
+  "version": "0.0.1",
+  "description": "notv-front",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juhofriman/notv.git"
+  },
+  "author": "Juho Friman <juho.t.friman@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juhofriman/notv/issues"
+  },
+  "homepage": "https://github.com/juhofriman/notv#readme",
+  "dependencies": {
+    "babel-preset-react": "^6.5.0",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "html-webpack-plugin": "^2.9.0",
+    "jsx-loader": "^0.13.2",
+    "webpack": "^1.12.14",
+    "webpack-stream": "^3.1.0"
+  }
+}
