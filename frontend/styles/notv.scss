@@ -1,12 +1,11 @@
 .notv-container {
   font-family: arial;
 }
-
+.channel-listing-float {
+  float:left;
+}
 .channel-listing {
-
-  float: left;
-
-
+  display: inline-block;
   .channel-toggle {
     border:1px solid #ddd;
     border-radius: 4px;
@@ -19,5 +18,53 @@
   }
   .channel-toggle.toggled {
     background-color: #ccc;
+  }
+}
+.timeline-float {
+  float: left;
+  margin-left:1em;
+}
+.timeline {
+  display: block;
+  width: 100%;
+  .block {
+    float: left;
+  }
+  .hours {
+    .point {
+      font-size:0.8em;
+      height: 100px;
+      margin-right:0.5em;
+    }
+  }
+  .past {
+    background-color: #ccc;
+    width: 600px;
+  }
+  .now-cue {
+    width: 600px;
+    border-top:1px solid red;
+    z-index: 300;
+    top:50px;
+  }
+  .future {
+    background-color: #aaf;
+    width: 600px;
+  }
+
+  .schedule-container {
+    float:left;
+  }
+  .schedule {
+    width: 100px;
+    margin-left: 10px;
+    font-size: 60%;
+    .program {
+      background-color: #eee;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      padding: 4px;
+      font-size: 80%;
+    }
   }
 }
