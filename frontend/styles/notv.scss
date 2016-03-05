@@ -1,4 +1,23 @@
 .notv-container {
-  background-color: #393;
+  font-family: arial;
+}
 
+.channel-listing {
+
+  float: left;
+
+
+  .channel-toggle {
+    border:1px solid #ddd;
+    border-radius: 4px;
+
+    padding:0.5em;
+    .name {
+
+    }
+
+  }
+  .channel-toggle.toggled {
+    background-color: #ccc;
+  }
 }
