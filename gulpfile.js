@@ -5,6 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 gulp.task('default', function() {
   return gulp.src('frontend/src/app.jsx')
     .pipe(webpack({
+      devtool: 'source-map',
       watch: true,
       module: {
         loaders: [
