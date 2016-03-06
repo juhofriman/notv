@@ -137,7 +137,8 @@ var NoTV = React.createClass({
               { length: 150, name: 'Mönkiäisohjelmaa'},
               { length: 50, name: 'Venäläiset suolakurkut'}
             ]},
-       ]};
+       ],
+     order: []};
   },
   toggleChannel: function(channel) {
     this.setState(
@@ -151,10 +152,21 @@ var NoTV = React.createClass({
                 return c;
               }
             });
-          }}}));
+          }},
+        'order': { '$apply': function(oldOrder) {
+          var index = oldOrder.indexOf(channel.name);
+          if(index === -1) {
+            oldOrder.push(channel.name);
+          } else {
+            oldOrder.splice(index, 1);
+          }
+          return oldOrder;
+        }}}));
   },
   getProgramArrays: function() {
-    var a = this.state.channels.filter(function(c) { return c.toggled; }).map(function(c) { return c.programs; })
+    var a = this.state.order.map(function(cName) {
+      return this.state.channels.filter(function(c) { return c.name === cName})[0].programs
+    }, this);
     return a;
   },
   render: function() {
