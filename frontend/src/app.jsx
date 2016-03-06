@@ -9,11 +9,27 @@ var ReactDOM = require('react-dom')
 var update = require('react-addons-update');
 var classNames = require('classnames');
 
+var notvSearch = {
+  programMatches: function(q, program) {
+    if(q.trim() === '') { return false; }
+    return program.name.toUpperCase().indexOf(q.toUpperCase()) > -1;
+  },
+  channelMatches: function(q, programs) {
+    if(q.trim() === '') { return false; }
+    return programs.some(function(p) {
+      return this.programMatches(q, p);
+    }, this);
+  }
+};
+
 var Program = React.createClass({
   render: function() {
     var programHeigh = { height: this.props.program.length };
+    var classes = classNames('program', {
+        'matches': this.props.program.matches
+    });
     return (
-        <div className="program" style={programHeigh}>{this.props.program.name}</div>
+        <div className={classes} style={programHeigh}>{this.props.program.name}</div>
     );
   }
 });
@@ -23,7 +39,8 @@ var Schedule = React.createClass({
     return (
       <div className="schedule-container">
         <div className="schedule">
-          {this.props.programs.map(function(program, i){
+          {this.props.channel.name}
+          {this.props.channel.programs.map(function(program, i){
             return <Program program={program} key={i} />;
           })}
         </div>
@@ -53,7 +70,7 @@ var Timeline = React.createClass({
         </div>
         <div className="block">
           {this.props.channels.map(function(channel, i){
-            return <Schedule programs={channel} key={i} />;
+            return <Schedule channel={channel} key={i} />;
           })}
           <div className="past" style={timelineStyling.pastStyle}></div>
           <div className="now-cue"></div>
@@ -71,11 +88,29 @@ var ChannelToggle = React.createClass({
   },
   render: function() {
     var classes = classNames('channel-toggle', {
-        'toggled': this.props.channel.toggled
+        'toggled': this.props.channel.toggled,
+        'matches': this.props.channel.matches
     });
     return (
       <div className={classes}>
         <div onClick={this.toggle} className="name">{this.props.channel.name}</div>
+      </div>
+    );
+  }
+});
+
+var NoTVSearch = React.createClass({
+  change: function(e) {
+    if(e.target.value.length > 2) {
+      this.props.changeQueryCallback(e.target.value);
+    } else {
+      this.props.changeQueryCallback('');
+    }
+  },
+  render: function() {
+    return (
+      <div className="notv-search">
+        <input onChange={this.change} type="text"/>
       </div>
     );
   }
@@ -135,10 +170,12 @@ var NoTV = React.createClass({
             'programs': [
               { length: 100, name: 'Ryhmä-X'},
               { length: 150, name: 'Mönkiäisohjelmaa'},
-              { length: 50, name: 'Venäläiset suolakurkut'}
+              { length: 50, name: 'Venäläiset suolakurkut'},
+              { length: 10, name: 'Uutiset'}
             ]},
        ],
-     order: []};
+     order: [],
+     query: ''};
   },
   toggleChannel: function(channel) {
     this.setState(
@@ -163,21 +200,38 @@ var NoTV = React.createClass({
           return oldOrder;
         }}}));
   },
+  changeQueryState: function(query) {
+    this.setState(update(this.state, {'query': {'$set': query}}));
+  },
   getProgramArrays: function() {
+    // Horrible, but catches the idea...
     var a = this.state.order.map(function(cName) {
-      return this.state.channels.filter(function(c) { return c.name === cName})[0].programs
+      return this.state.channels.filter(function(c) { return c.name === cName})[0]
     }, this);
-    return a;
+    return a.map(function(channel) {
+      channel['programs'] = channel.programs.map(function(program) {
+        program['matches'] = notvSearch.programMatches(this.state.query, program);
+        return program;
+      }, this);
+      return channel;
+    }, this);
+  },
+  getChannelsWithMatchesMarked: function() {
+    // Horrible, but catches the idea...
+    return this.state.channels.map(function(channel) {
+      channel['matches'] = notvSearch.channelMatches(this.state.query, channel.programs);
+      return channel;
+    }, this);
   },
   render: function() {
     return (
       <div className="notv-container">
         <div>
-          <input type="text"/>
+          <NoTVSearch changeQueryCallback={this.changeQueryState}/>
         </div>
         <div>
           <div className="channel-listing-float">
-            <ChannelSelector channels={this.state.channels} toggleCallback={this.toggleChannel}/>
+            <ChannelSelector channels={this.getChannelsWithMatchesMarked()} toggleCallback={this.toggleChannel}/>
           </div>
           <div className="timeline-float">
             <Timeline channels={this.getProgramArrays()}/>

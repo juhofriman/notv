@@ -1,6 +1,15 @@
 .notv-container {
   font-family: arial;
 }
+.notv-search {
+  position: fixed;
+  margin-bottom: 1em;
+}
+
+.matches {
+  background-color: yellow !important;
+}
+
 .channel-listing-float {
   float:left;
 }
