@@ -1,22 +1,65 @@
-.notv-container {
-  font-family: arial;
-}
-.notv-search {
-  position: fixed;
-  margin-bottom: 1em;
+$colors: (
+  'primary': #8e3329,
+  'accent': #d98328,
+  'secondary': #5a1321,
+  'foreground': #191919,
+  'background': #e9e9e9
+);
+@function notv-color($key: 'primary') {
+  @return map-get($colors, $key);
 }
 
-.matches {
-  background-color: yellow !important;
+body {
+  background-color: notv-color('background');
+    color: notv-color('primary');
 }
+
+.notv-container {
+  background-color: notv-color('background');
+  font-family: arial;
+
+}
+.notv-header {
+  background-color: notv-color('foreground');
+  color: notv-color('accent');
+  position: fixed;
+  width: 100%;
+  top:0px;
+  left:0px;
+  bottom: auto;
+  z-index: 3;
+  .logo {
+    float:right;
+    overflow: auto;
+    margin-right:10px;
+  }
+  .notv-search {
+    input {
+      font-size: 16px;
+      height:30px;
+      width:300px;
+      margin-top:10px;
+      margin-left: 10px;
+    }
+  }
+}
+
+.notv-body {
+  background-color: notv-color('background');
+  position:absolute;
+  top:70px;
+}
+
+
 
 .channel-listing-float {
+  position: fixed;
   float:left;
 }
 .channel-listing {
   display: inline-block;
   .channel-toggle {
-    border:1px solid #ddd;
+    border:1px solid notv-color('primary');
     border-radius: 4px;
 
     padding:0.5em;
@@ -26,7 +69,11 @@
 
   }
   .channel-toggle.toggled {
-    background-color: #ccc;
+    background-color: notv-color('accent');
+    color: white;
+  }
+  .matches {
+    text-decoration: underline;
   }
 }
 .timeline-float {
@@ -35,6 +82,7 @@
 }
 .timeline {
   display: block;
+  margin-left:100px;
   width: 100%;
   .block {
     float: left;
@@ -54,10 +102,9 @@
     width: 600px;
     border-top:1px solid red;
     z-index: 300;
-    top:50px;
   }
   .future {
-    background-color: #aaf;
+    background-color: #eee;
     width: 600px;
   }
 
@@ -70,10 +117,13 @@
     font-size: 60%;
     .program {
       background-color: #eee;
-      border: 1px solid #aaa;
+      border: 1px solid notv-color('secondary');
       border-radius: 4px;
       padding: 4px;
       font-size: 80%;
+    }
+    .matches {
+      background-color: notv-color('accent');
     }
   }
 }

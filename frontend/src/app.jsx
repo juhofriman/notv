@@ -54,7 +54,7 @@ var Timeline = React.createClass({
     // Here we should get current time and scale by that
     return {
       pastStyle: { height: 300 },
-      futureStyle: { height: 100 }
+      futureStyle: { height: 800 }
     };
   },
   render: function() {
@@ -67,6 +67,13 @@ var Timeline = React.createClass({
           <div className="point">15:00</div>
           <div className="point">16:00</div>
           <div className="point">17:00</div>
+          <div className="point">18:00</div>
+          <div className="point">19:00</div>
+          <div className="point">20:00</div>
+          <div className="point">21:00</div>
+          <div className="point">22:00</div>
+          <div className="point">23:00</div>
+          <div className="point">24:00</div>
         </div>
         <div className="block">
           {this.props.channels.map(function(channel, i){
@@ -226,10 +233,13 @@ var NoTV = React.createClass({
   render: function() {
     return (
       <div className="notv-container">
-        <div>
+        <div className="notv-header">
+          <div className="logo">
+            <h4>Se parempi televisio-opas</h4>
+          </div>
           <NoTVSearch changeQueryCallback={this.changeQueryState}/>
         </div>
-        <div>
+        <div className="notv-body">
           <div className="channel-listing-float">
             <ChannelSelector channels={this.getChannelsWithMatchesMarked()} toggleCallback={this.toggleChannel}/>
           </div>
