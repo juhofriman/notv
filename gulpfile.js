@@ -26,5 +26,5 @@ gulp.task('default', function() {
         inject: 'body' // Inject all scripts into the body
       })]
     }
-  )).pipe(gulp.dest('dist/'));
+  )).pipe(gulp.dest('resources/public'));
 });
