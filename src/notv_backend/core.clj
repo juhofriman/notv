@@ -27,7 +27,7 @@
 (defapi app
   (undocumented
     (route/resources "/")
-    (GET "/channels" [] (ok (get-channels-foo)))
+    (GET "/api/channels" [] (ok (get-channels-foo)))
     (GET "/hello" []
       :query-params [name :- String]
       (ok {:message (str "Hello, " name)}))))

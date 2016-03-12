@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/juhofriman/notv#readme",
   "dependencies": {
+    "axiom": "^0.1.6",
+    "axios": "^0.9.1",
     "babel-preset-react": "^6.5.0",
     "classnames": "^2.2.3",
     "react": "^0.14.7",
