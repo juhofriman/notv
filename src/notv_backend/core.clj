@@ -21,7 +21,7 @@
     (map xml-channel-to-channel channels)))
 
 (defn get-channels-foo []
-  (-> (slurp "resources/example-tvdata.xml")
+  (-> (slurp (clojure.java.io/resource "example-tvdata.xml"))
       get-channels))
 
 (defapi app

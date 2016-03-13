@@ -1,13 +1,9 @@
-FROM ubuntu
+FROM java
 
-WORKDIR /opt/xmltv
-
-RUN sudo apt-get update
-RUN apt-get install -y xmltv
-RUN apt-get install -y python
-COPY docker/tv_grab_fi.conf tv_grab_fi.conf
+WORKDIR /opt/notv
 
 COPY docker/docker-entrypoint.sh docker-entrypoint.sh
+COPY target/uberjar/notv-0.1.0-SNAPSHOT-standalone.jar /opt/notv
 RUN chmod +x docker-entrypoint.sh
-CMD ["bash", "-c", "/opt/xmltv/docker-entrypoint.sh"]
-EXPOSE 8000
+CMD ["bash", "-c", "/opt/notv/docker-entrypoint.sh"]
+EXPOSE 3000

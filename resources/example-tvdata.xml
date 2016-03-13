@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE tv SYSTEM "xmltv.dtd">
-
+<!DOCTYPE tv>
+<!-- Example file. Note that xmltv adds reference to dtd which is removed here. -->
 <tv source-info-url="multiple" source-data-url="multiple" generator-info-name="XMLTV" generator-info-url="http://xmltv.org/">
   <channel id="jim.telvis.fi">
     <display-name lang="fi">JIM</display-name>
