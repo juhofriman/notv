@@ -19,5 +19,5 @@ lein ring server
 gulp
 lein ring uberjar
 docker build -t juhofriman/notv .
-docker run -p 8000:8000 -t juhofriman/notv
+docker run -p 3000:3000 -t juhofriman/notv
 ```
