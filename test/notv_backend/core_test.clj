@@ -4,13 +4,13 @@
 
 (def trivial-xml
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-   <!DOCTYPE tv SYSTEM \"xmltv.dtd\">
+   <!DOCTYPE tv>
    <tv source-info-url=\"multiple\" source-data-url=\"multiple\" generator-info-name=\"XMLTV\" generator-info-url=\"http://xmltv.org/\">
    </tv>")
 
 (def non-trivial-xml
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-   <!DOCTYPE tv SYSTEM \"xmltv.dtd\">
+   <!DOCTYPE tv>
    <tv source-info-url=\"multiple\" source-data-url=\"multiple\" generator-info-name=\"XMLTV\" generator-info-url=\"http://xmltv.org/\">
      <channel id=\"channel-1\">
        <display-name lang=\"fi\">CHANNEL-1</display-name>
