@@ -15,6 +15,14 @@
   {:id (:id attrs)
    :name (first (:content (first content)))})
 
+(defn xml-programme-to-programme [{attrs :attrs content :content}]
+     {:id (:id attrs)
+      :name (first (:content (first content)))
+      :desc (first (:content (second content)))})
+
+
+(defn get-programmes [xmlstr channelId]
+  (map xml-programme-to-programme (filter #(and (= (:tag %) :programme) (= (-> % :attrs :channel) channelId)) (clojure.zip/children (zip-str xmlstr)))))
 
 (defn get-channels [xmlstr]
   (let [channels (filter #(= (:tag %) :channel) (clojure.zip/children (zip-str xmlstr)))]
@@ -22,12 +30,15 @@
 
 (defn get-channels-foo []
   (-> (slurp "/data/tvdata.xml")
-      get-channels))
+      (get-channels)))
+
+(defn get-programmes-foo [channelId]
+  (-> (slurp "/data/tvdata.xml")
+      (get-programmes channelId)))
 
 (defapi app
   (undocumented
     (route/resources "/")
     (GET "/api/channels" [] (ok (get-channels-foo)))
-    (GET "/hello" []
-      :query-params [name :- String]
-      (ok {:message (str "Hello, " name)}))))
+    (GET "/api/channel/:channelId" [channelId]
+      (ok (get-programmes-foo channelId)))))

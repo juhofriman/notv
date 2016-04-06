@@ -9,7 +9,10 @@
   :ring {:handler notv-backend.core/app}
   :main ^:skip-aot notv-backend.core
   :target-path "target/%s"
+  :repl-options {:init-ns user}
   :profiles {:uberjar {:resource-paths ["swagger-ui"]
                        :aot :all}
-             :dev {:dependencies [[javax.servlet/servlet-api "2.5"]]
+             :dev {:source-paths ["dev"]
+                   :dependencies [[javax.servlet/servlet-api "2.5"]
+                                  [org.clojure/tools.namespace "0.2.11"]]
                    :plugins [[lein-ring "0.9.7"]]}})
