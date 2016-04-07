@@ -41,7 +41,11 @@
     (is (= (count (get-programmes non-trivial-xml "jim.telvis.fi")) 2))
     (let [first-program (first (get-programmes non-trivial-xml "jim.telvis.fi"))]
       (is (= "Grillit huurussa" (:name first-program)))
-      (is (= "First programme description" (:desc first-program))))
+      (is (= "First programme description" (:desc first-program)))
+      (is (not (nil? (:start first-program))))
+      (is (not (nil? (:end first-program)))))
     (let [second-program (second (get-programmes non-trivial-xml "jim.telvis.fi"))]
       (is (= "Firmat kuntoon" (:name second-program)))
-      (is (= "Second programme description" (:desc second-program))))))
+      (is (= "Second programme description" (:desc second-program)))
+      (is (not (nil? (:start second-program))))
+      (is (not (nil? (:end second-program)))))))
