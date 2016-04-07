@@ -49,9 +49,20 @@
   (-> (slurp "/data/tvdata.xml")
       (get-programmes channelId)))
 
+(defn is-curl [userAgent]
+  (.contains userAgent "curl"))
+
+(defn neat-curl-response [programmes]
+  (str
+    "NOTV \n\n"
+    (apply str (map (fn [{name :name}] (str name "\n")) programmes))
+    "\n"))
+
 (defapi app
   (undocumented
     (route/resources "/")
     (GET "/api/channels" [] (ok (get-channels-foo)))
-    (GET "/api/channel/:channelId" [channelId]
-      (ok (get-programmes-foo channelId)))))
+    (GET "/api/channel/:channelId" [channelId :as req]
+      (if (is-curl (-> req :headers (get "user-agent")))
+        (ok (neat-curl-response (get-programmes-foo channelId)))
+        (ok (get-programmes-foo channelId))))))
