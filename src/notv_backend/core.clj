@@ -6,6 +6,7 @@
             [schema.core :as s]
             [clojure.xml :as xml]
             [clojure.zip :as zip]
+            [clojure.java.io :as io]
             [clj-time.format :as f]))
 
 (def formatter (f/formatter "yyyyMMddHHmmss"))
@@ -27,6 +28,11 @@
     :start (f/parse formatter (clean-timestamp (:start attrs)))
     :end (f/parse formatter (clean-timestamp (:stop attrs)))})
 
+(defn get-tvdata-file-location []
+  (let [env-path (System/getenv "TVDATA_FILE")]
+    (if (empty? env-path)
+      (io/file (io/resource "example-tvdata.xml"))
+      env-path)))
 
 (defn get-programmes [xmlstr channelId]
   (map
@@ -42,27 +48,36 @@
     (map xml-channel-to-channel channels)))
 
 (defn get-channels-foo []
-  (-> (slurp "/data/tvdata.xml")
+  (-> (slurp (get-tvdata-file-location))
       (get-channels)))
 
 (defn get-programmes-foo [channelId]
-  (-> (slurp "/data/tvdata.xml")
+  (-> (slurp (get-tvdata-file-location))
       (get-programmes channelId)))
 
 (defn is-curl [userAgent]
   (.contains userAgent "curl"))
 
-(defn neat-curl-response [programmes]
+(defn neat-curl-response-programmes [programmes]
   (str
     "NOTV \n\n"
     (apply str (map (fn [{name :name}] (str name "\n")) programmes))
     "\n"))
 
+(defn neat-curl-response-channels [channels]
+  (str
+    "NOTV \n\n"
+    (apply str (map (fn [{id :id name :name}] (str name " /" id "\n")) channels))
+    "\n"))
+
 (defapi app
   (undocumented
     (route/resources "/")
-    (GET "/api/channels" [] (ok (get-channels-foo)))
+    (GET "/api/channels" [:as req]
+      (if (is-curl (-> req :headers (get "user-agent")))
+        (ok (neat-curl-response-channels (get-channels-foo)))
+        (ok (get-channels-foo))))
     (GET "/api/channel/:channelId" [channelId :as req]
       (if (is-curl (-> req :headers (get "user-agent")))
-        (ok (neat-curl-response (get-programmes-foo channelId)))
+        (ok (neat-curl-response-programmes (get-programmes-foo channelId)))
         (ok (get-programmes-foo channelId))))))
