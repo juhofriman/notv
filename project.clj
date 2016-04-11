@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [clj-time "0.11.0"]
                  [metosin/compojure-api "1.0.1"]]
-  :ring {:handler notv-backend.core/app}
+  :ring {:handler notv-backend.core/app
+         :nrepl { :start? true :port 5555}}
   :main ^:skip-aot notv-backend.core
   :target-path "target/%s"
   :repl-options {:init-ns user}
@@ -14,5 +15,5 @@
                        :aot :all}
              :dev {:source-paths ["dev"]
                    :dependencies [[javax.servlet/servlet-api "2.5"]
-                                  [org.clojure/tools.namespace "0.2.11"]]
+                                  [org.clojure/tools.namespace "0.3.0-alpha3"]]
                    :plugins [[lein-ring "0.9.7"]]}})
