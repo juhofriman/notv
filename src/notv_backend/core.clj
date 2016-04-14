@@ -58,10 +58,12 @@
 (defn is-curl [userAgent]
   (.contains userAgent "curl"))
 
+(def curl-formatter (f/formatter "HH:mm"))
+
 (defn neat-curl-response-programmes [programmes]
   (str
     "NOTV \n\n"
-    (apply str (map (fn [{name :name}] (str name "\n")) programmes))
+    (apply str (map (fn [{name :name s :start e :end}] (str (f/unparse curl-formatter s) "-" (f/unparse curl-formatter e) " " name "\n")) programmes))
     "\n"))
 
 (defn neat-curl-response-channels [channels]

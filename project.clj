@@ -7,13 +7,13 @@
                  [clj-time "0.11.0"]
                  [metosin/compojure-api "1.0.1"]]
   :ring {:handler notv-backend.core/app
-         :nrepl { :start? true :port 5555}}
+         :nrepl { :start? true :port 5555}
+         :auto-reload? true}
   :main ^:skip-aot notv-backend.core
   :target-path "target/%s"
   :repl-options {:init-ns user}
   :profiles {:uberjar {:resource-paths ["swagger-ui"]
                        :aot :all}
              :dev {:source-paths ["dev"]
-                   :dependencies [[javax.servlet/servlet-api "2.5"]
-                                  [org.clojure/tools.namespace "0.3.0-alpha3"]]
+                   :dependencies [[javax.servlet/servlet-api "2.5"]]
                    :plugins [[lein-ring "0.9.7"]]}})
