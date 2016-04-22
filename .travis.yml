@@ -5,8 +5,8 @@ services:
   - docker
 
 script:
-- lein do clean, deps
-- lein test
+  - lein do clean, deps
+  - lein test
 
 after_success:
   - lein do clean, ring uberjar
