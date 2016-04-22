@@ -10,6 +10,7 @@ script:
 
 after_success:
   - lein do clean, ring uberjar
+  - find target -name 'notv*-standalone.jar' -exec cp {} target/notv-0.1.0-SNAPSHOT-standalone.jar \;
   - docker build -t juhofriman/notv:0.0.1 .
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push juhofriman/notv:0.0.1
