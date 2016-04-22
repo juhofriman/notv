@@ -4,6 +4,10 @@ sudo: required
 services:
   - docker
 
+script:
+- lein do clean, deps
+- lein test
+
 after_success:
   - lein do clean, ring uberjar
   - docker build -t juhofriman/notv:0.0.1 .
