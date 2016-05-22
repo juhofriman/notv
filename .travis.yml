@@ -9,7 +9,9 @@ script:
   - lein test
 
 after_success:
-  - lein uberjar
+  - lein do clean, uberjar
+  - ls -la target
+  - ls -la target/uberjar
   - docker build -t juhofriman/notv:latest .
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push juhofriman/notv:latest
