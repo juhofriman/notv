@@ -1,5 +1,6 @@
 FROM java
 
+RUN mkdir /opt/notv
 WORKDIR /opt/notv
 
 ADD docker/docker-entrypoint.sh docker-entrypoint.sh
