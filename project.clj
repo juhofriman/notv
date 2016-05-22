@@ -5,15 +5,12 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [clj-time "0.11.0"]
-                 [metosin/compojure-api "1.0.1"]]
-  :ring {:handler notv-backend.core/app
-         :nrepl { :start? true :port 5555}
-         :auto-reload? true}
+                 [compojure "1.5.0"]
+                 [http-kit "2.1.18"]]
   :main ^:skip-aot notv-backend.core
   :target-path "target/%s"
   :repl-options {:init-ns user}
-  :profiles {:uberjar {:resource-paths ["swagger-ui"]
-                       :aot :all}
-             :dev {:source-paths ["dev"]
-                   :dependencies [[javax.servlet/servlet-api "2.5"]]
-                   :plugins [[lein-ring "0.9.7"]]}})
+  :profiles { :dev { :source-paths ["dev"]
+                     :dependencies [[javax.servlet/servlet-api "2.5"]]
+                     :plugins []}
+              :uberjar { :aot :all :main  notv-backend.core}})

@@ -1,9 +1,9 @@
 
 (ns notv-backend.core
-  (:require [compojure.api.sweet :refer :all]
+  (:gen-class)
+  (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.util.http-response :refer :all]
-            [schema.core :as s]
+            [org.httpkit.server :refer [run-server]]
             [clojure.xml :as xml]
             [clojure.zip :as zip]
             [clojure.java.io :as io]
@@ -72,14 +72,14 @@
     (apply str (map (fn [{id :id name :name}] (str name " /" id "\n")) channels))
     "\n"))
 
-(defapi app
-  (undocumented
-    (route/resources "/")
-    (GET "/api/channels" [:as req]
-      (if (is-curl (-> req :headers (get "user-agent")))
-        (ok (neat-curl-response-channels (get-channels-foo)))
-        (ok (get-channels-foo))))
-    (GET "/api/channel/:channelId" [channelId :as req]
-      (if (is-curl (-> req :headers (get "user-agent")))
-        (ok (neat-curl-response-programmes (get-programmes-foo channelId)))
-        (ok (get-programmes-foo channelId))))))
+(defroutes app
+  (GET "/" [] (neat-curl-response-channels (get-channels-foo)))
+  (GET "/JUUH" [] "JUUH")
+  (GET "/:channelId" [channelId] (neat-curl-response-programmes (get-programmes-foo channelId)))
+  (route/not-found "<h1>Page not found</h1>"))
+
+(defn start-this-shop []
+  (run-server app {:port 5000}))
+
+(defn -main []
+  (start-this-shop))
