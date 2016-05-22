@@ -11,6 +11,7 @@
   :target-path "target/%s"
   :repl-options {:init-ns user}
   :profiles { :dev { :source-paths ["dev"]
-                     :dependencies [[javax.servlet/servlet-api "2.5"]]
+                     :dependencies [[javax.servlet/servlet-api "2.5"]
+                                    [org.clojure/tools.namespace "0.2.11"]]
                      :plugins []}
               :uberjar { :aot :all :main  notv-backend.core}})

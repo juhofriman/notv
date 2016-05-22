@@ -74,7 +74,6 @@
 
 (defroutes app
   (GET "/" [] (neat-curl-response-channels (get-channels-foo)))
-  (GET "/JUUH" [] "JUUH")
   (GET "/:channelId" [channelId] (neat-curl-response-programmes (get-programmes-foo channelId)))
   (route/not-found "<h1>Page not found</h1>"))
 

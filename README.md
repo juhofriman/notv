@@ -9,7 +9,7 @@ scraping data.
 
 ### REPL
 
-TBW
+Just kick REPL in and use ```(start-notv)``` and ```(restart-notv)``` to edit code on the fly.
 
 ### lein run
 
