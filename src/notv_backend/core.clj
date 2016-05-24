@@ -2,6 +2,7 @@
 (ns notv-backend.core
   (:gen-class)
   (:require [notv-backend.render :as render]
+            [notv-backend.xml :as xml]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [org.httpkit.server :refer [run-server]]))
@@ -33,9 +34,28 @@
       :headers {"content-type" "text/plain"}
       :body "This shop serves only customers coming in with user-agent: *curl*"}))
 
+(defn channel-listing []
+  (reduce (fn [acc {name :name}] (str acc name "\n")) "" (xml/get-channels-from-data)))
+
+(defn programs-listing [id]
+  (reduce (fn [acc {name :name}] (str acc name "\n")) "" (xml/get-programmes-from-data id)))
+
+
+(defn frontpage []
+  (render/render
+    "NOTV - finnish tv timetable for curlers"
+    ""
+    channel-listing))
+
+(defn channel-page [id]
+  (render/render
+    "NOTV - finnish tv timetable for curlers"
+    ""
+    [programs-listing id]))
+
 (defroutes app
-  (GET "/" request (curl-or-die request render/render-channels))
-  (GET "/:id" [id :as request] (curl-or-die request render/render-programmes id))
+  (GET "/" request (curl-or-die request frontpage))
+  (GET "/:id" [id :as request] (curl-or-die request channel-page id))
   (ANY "*" request (curl-or-die request "WHOOPSIE, no droids here")))
 
 (defn start-this-shop []

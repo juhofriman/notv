@@ -1,23 +1,16 @@
 
 (ns notv-backend.render
-  (:gen-class)
-  (:require [notv-backend.xml :as noxml]
-            [clj-time.format :as f]))
+  (:gen-class))
 
-(def formatter (f/formatter "HH:mm"))
+(defn invoke-from-vector [[func & args]] (apply func args))
 
-(defn render-channels []
-  (reduce
-    str
+(defn render [& a]
+  (clojure.string/join
+    \newline
     (map
-      (fn [{name :name id :id}]
-        (str name " / " id "\n"))
-      (noxml/get-channels-from-data))))
-
-(defn render-programmes [id]
-  (reduce
-    str
-    (map
-      (fn [{name :name start :start end :end}]
-        (str (f/unparse formatter start) "-" (f/unparse formatter end) " " name "\n"))
-      (noxml/get-programmes-from-data id))))
+      (fn [function-candidate]
+        (cond
+          (fn? function-candidate) (function-candidate)
+          (vector? function-candidate) (invoke-from-vector function-candidate)
+          :else function-candidate))
+     a)))
