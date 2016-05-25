@@ -22,6 +22,11 @@
           (nl-separated "hello" "world" "I'm bored")
           (render "hello" "world" "I'm bored"))))
 
+  (testing "rendering vectors"
+    (is (expected-content
+         (nl-separated "hello" "world")
+         (render ["hello" "world"]))))
+
   (testing "rendering functions"
     (is (expected-content
           "hello"
@@ -45,4 +50,9 @@
           (render
             [(fn [a b] (str a " " b)) "hello" "world"]
             "I'm bored"
-            [(fn [a] (str "lovingly" " " a)) "adored"])))))          
+            [(fn [a] (str "lovingly" " " a)) "adored"]))))
+
+  (testing "rendering functions returning vectors"
+    (is (expected-content
+         (nl-separated "hello" "world")
+         (render (fn [] ["hello" "world"]))))))

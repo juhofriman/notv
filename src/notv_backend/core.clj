@@ -3,6 +3,7 @@
   (:gen-class)
   (:require [notv-backend.render :as render]
             [notv-backend.xml :as xml]
+            [clj-time.format :as f]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [org.httpkit.server :refer [run-server]]))
@@ -35,23 +36,33 @@
       :body "This shop serves only customers coming in with user-agent: *curl*"}))
 
 (defn channel-listing []
-  (reduce (fn [acc {name :name}] (str acc name "\n")) "" (xml/get-channels-from-data)))
+  (map (fn [{id :id name :name}] (str name "/" id)) (xml/get-channels-from-data)))
+
+(def time-formatter (f/formatter "hh:mm"))
+
+(defn format-date [d]
+  (f/unparse time-formatter d))
+
+(defn program-to-string
+  [{name :name start :start end :end}]
+  (str (format-date start) "-" (format-date end) " " name))
 
 (defn programs-listing [id]
-  (reduce (fn [acc {name :name}] (str acc name "\n")) "" (xml/get-programmes-from-data id)))
-
+  (map program-to-string (xml/get-programmes-from-data id)))
 
 (defn frontpage []
   (render/render
     "NOTV - finnish tv timetable for curlers"
     ""
-    channel-listing))
+    channel-listing
+   ""))
 
 (defn channel-page [id]
   (render/render
     "NOTV - finnish tv timetable for curlers"
     ""
-    [programs-listing id]))
+    [programs-listing id]
+     ""))
 
 (defroutes app
   (GET "/" request (curl-or-die request frontpage))

@@ -1,16 +1,28 @@
-
 (ns notv-backend.render
   (:gen-class))
 
-(defn invoke-from-vector [[func & args]] (apply func args))
+(declare render)
 
-(defn render [& a]
-  (clojure.string/join
-    \newline
-    (map
-      (fn [function-candidate]
-        (cond
-          (fn? function-candidate) (function-candidate)
-          (vector? function-candidate) (invoke-from-vector function-candidate)
-          :else function-candidate))
-     a)))
+(defn invoke-from-vector
+  [[head & tail :as all]]
+  (if (fn? head )
+    (apply head tail)
+    (apply render all)))
+
+(defn evaluate-part
+  [part]
+  (cond
+   (fn? part) (part)
+   (vector? part) (invoke-from-vector part)
+   :else part))
+
+(defn join-by-nl
+  [parts]
+  (clojure.string/join \newline parts))
+
+(defn render
+  "Renders parts"
+  [& parts]
+  (-> (map evaluate-part parts)
+      (flatten)
+      (join-by-nl)))
