@@ -1,11 +1,11 @@
 (ns user
   (:require
     [clojure.tools.namespace.repl :as ns-tools]
-    [notv-backend.core :refer :all]
-    [notv-backend.core-test :refer :all]))
+    [notv.core :refer :all]
+    [notv.core-test :refer :all]))
 
 (defn run-tests []
-  (clojure.test/run-tests 'notv-backend.core-test))
+  (clojure.test/run-tests 'notv.core-test))
 
 (def http-app (atom nil))
 

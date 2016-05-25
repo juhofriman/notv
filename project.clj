@@ -7,11 +7,11 @@
                  [clj-time "0.11.0"]
                  [compojure "1.5.0"]
                  [http-kit "2.1.18"]]
-  :main ^:skip-aot notv-backend.core
+  :main ^:skip-aot notv.core
   :target-path "target/%s"
   :repl-options {:init-ns user}
   :profiles { :dev { :source-paths ["dev"]
                      :dependencies [[javax.servlet/servlet-api "2.5"]
                                     [org.clojure/tools.namespace "0.2.11"]]
                      :plugins []}
-              :uberjar { :aot :all :main  notv-backend.core}})
+              :uberjar { :aot :all :main  notv.core}})

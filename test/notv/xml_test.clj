@@ -1,6 +1,6 @@
-(ns notv-backend.xml-test
+(ns notv.xml-test
   (:require [clojure.test :refer :all]
-            [notv-backend.xml :refer :all]))
+            [notv.xml :refer :all]))
 
 (def trivial-xml
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>

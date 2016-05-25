@@ -1,8 +1,8 @@
 
-(ns notv-backend.core
+(ns notv.core
   (:gen-class)
-  (:require [notv-backend.render :as render]
-            [notv-backend.xml :as xml]
+  (:require [notv.render :as render]
+            [notv.xml :as xml]
             [clj-time.format :as f]
             [compojure.core :refer :all]
             [compojure.route :as route]

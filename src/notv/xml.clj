@@ -1,5 +1,5 @@
 
-(ns notv-backend.xml
+(ns notv.xml
   (:gen-class)
   (:require [clojure.xml :as xml]
             [clojure.zip :as zip]

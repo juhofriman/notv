@@ -1,6 +1,6 @@
-(ns notv-backend.render-test
+(ns notv.render-test
   (:require [clojure.test :refer :all]
-            [notv-backend.render :refer :all]))
+            [notv.render :refer :all]))
 
 (defn expected-content
   [expected actual]

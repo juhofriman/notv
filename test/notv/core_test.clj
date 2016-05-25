@@ -1,6 +1,6 @@
-(ns notv-backend.core-test
+(ns notv.core-test
   (:require [clojure.test :refer :all]
-            [notv-backend.core :refer :all]))
+            [notv.core :refer :all]))
 
 (deftest core-tests
 
