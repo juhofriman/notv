@@ -19,7 +19,14 @@
   []
   (slurp (get-tvdata-file-location)))
 
+(defn get-revision
+  []
+  (if-let [file (io/file (io/resource "gitrevision.txt"))]
+    file
+    "local"))
+
 (defroutes app
+  (GET "/status" request {:headers {"Content-type" "text/plain"} :body (get-revision)})
   (GET "/" request {:headers {"Content-type" "text/plain"} :body (xml/get-channels (get-tvdata))})
   (GET "/:id" [id :as request] {:headers {"Content-type" "text/plain"} :body (xml/get-programmes (get-tvdata) id)}))
 

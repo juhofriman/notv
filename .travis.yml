@@ -9,6 +9,7 @@ script:
   - lein test
 
 after_success:
+  - git rev-parse --short HEAD > resources/gitrevision.txt
   - lein do clean, uberjar
   - docker build -t juhofriman/notv:latest .
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
