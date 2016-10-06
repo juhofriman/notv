@@ -21,8 +21,8 @@
 
 (defn get-revision
   []
-  (if-let [file (io/file (io/resource "gitrevision.txt"))]
-    file
+  (if-let [file (io/resource "gitrevision.txt")]
+    (slurp file)
     "local"))
 
 (defroutes app
