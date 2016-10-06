@@ -5,7 +5,7 @@
 
 (defn invoke-from-vector
   [[head & tail :as all]]
-  (if (fn? head )
+  (if (fn? head)
     (apply head tail)
     (apply render all)))
 
