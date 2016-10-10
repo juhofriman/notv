@@ -6,12 +6,13 @@
             [clj-time.format :as f]))
 
 (def formatter (f/formatter "yyyyMMddHHmmss"))
+(def unformatter (f/formatter "HH:mm"))
 
 (defn clean-timestamp [raw]
   (clojure.string/replace raw #" \+\d+" ""))
   ;(f/parse formatter (clean-timestamp...)))
 
-(defn- parse-string [s]
+(defn parse-string [s]
    (clojure.xml/parse
      (java.io.ByteArrayInputStream. (.getBytes s))))
 
@@ -34,6 +35,10 @@
 (defn map-programme-from-tag [tag]
   "Maps programme out of tag"
   {:channel (get-in tag [:attrs :channel])
+   :starts (f/unparse unformatter (f/parse formatter (clean-timestamp (get-in tag [:attrs :start]))))
+   :ends (if-let [d (get-in tag [:attrs :stop])]
+           (f/unparse unformatter (f/parse formatter (clean-timestamp d)))
+           nil)
     ; this is just the way xml is constructed :(
    :name (-> tag content first content first)
    :description (-> tag content second content first)})
